@@ -1,7 +1,9 @@
-function App() {
+import { Header } from 'components/shared';
+
+function App(): JSX.Element {
   return (
     <>
-      <h1>Welcome to UPPER</h1>
+      <Header />
     </>
   );
 }
