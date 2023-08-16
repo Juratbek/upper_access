@@ -13,7 +13,7 @@ export const LoginForm: FC = () => {
       </div>
       <div className='mb-2'>
         <label htmlFor='Login'>Password</label>
-        <Input {...register('username')} />
+        <Input {...register('username')} type='password' />
       </div>
     </form>
   );

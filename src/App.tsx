@@ -1,6 +1,7 @@
 import { Button, StorysetImage, Divider } from 'components/lib';
 import { Header, LoginForm } from 'components/shared';
 import './styles/index.scss';
+import { TelegramLoginButton } from 'components/auth';
 
 function App(): JSX.Element {
   return (
@@ -15,6 +16,7 @@ function App(): JSX.Element {
             Ro'yxatdan o'tish
           </Button>
           <Divider className='my-2' color='medium-gray' />
+          <TelegramLoginButton botName='upper_local_dev_bot' />
         </div>
       </div>
     </div>
