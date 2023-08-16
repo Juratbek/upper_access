@@ -6,5 +6,5 @@ import { ISpinnerProps } from './Spinner.types';
 
 export const Spinner: FC<ISpinnerProps> = ({ color = 'dark', className }) => {
   const rootClassName = getClassName(classes.spinner, classes[`spinner--${color}`], className);
-  return <div className={rootClassName} />;
+  return <div role='spinner' className={rootClassName} />;
 };

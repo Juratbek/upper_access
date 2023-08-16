@@ -35,7 +35,13 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>(function Compo
   }, [loading, children]);
 
   return (
-    <button ref={ref} {...props} className={className} disabled={props.disabled || loading}>
+    <button
+      role='button'
+      ref={ref}
+      {...props}
+      className={className}
+      disabled={props.disabled || loading}
+    >
       {content}
     </button>
   );
