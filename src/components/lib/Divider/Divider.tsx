@@ -21,5 +21,5 @@ export const Divider: FC<IDividerProps> = ({
     [className, type, color],
   );
 
-  return <div className={rootClassName} {...props} />;
+  return <div role='divider' className={rootClassName} {...props} />;
 };
