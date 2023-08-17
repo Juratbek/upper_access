@@ -6,6 +6,7 @@ describe('Input', () => {
     render(<Input />);
     const input = screen.getByRole('input') as HTMLInputElement;
     expect(input).toHaveClass('input');
+    expect(input).toBeVisible();
     expect(input.type).toEqual('text');
   });
 });
