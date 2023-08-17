@@ -26,6 +26,13 @@ describe('Button', () => {
     expect(button).toHaveClass('outline-dark');
   });
 
+  it('size class name', () => {
+    const label = 'Click me';
+    render(<Button size='small'>{label}</Button>);
+    const button = screen.getByText(label);
+    expect(button).toHaveClass('small');
+  });
+
   it('disabled', () => {
     const label = 'Click me';
     render(

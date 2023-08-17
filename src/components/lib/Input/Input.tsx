@@ -22,6 +22,7 @@ export const Input = forwardRef<HTMLInputElement, TInputProps>(function Componen
   return (
     <div className='position-relative'>
       <input
+        role='input'
         {...props}
         ref={ref}
         className={rootClassName}
