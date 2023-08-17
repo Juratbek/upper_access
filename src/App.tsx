@@ -1,3 +1,4 @@
+import { JSX } from 'react';
 import { Button, StorysetImage, Divider } from 'components/lib';
 import { Header, LoginForm } from 'components/shared';
 import './styles/index.scss';

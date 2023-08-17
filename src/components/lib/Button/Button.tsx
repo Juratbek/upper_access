@@ -27,12 +27,12 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>(function Compo
     if (typeof props.loader === 'function') return props.loader();
     if (props.loader) return props.loader;
     return <Spinner className={classes.spinner} color={BUTTON_SPINNER_COLORS[color]} />;
-  }, [props.loader, color]);
+  }, [props, color]);
 
   const content = useMemo(() => {
     if (loading) return loader;
     return children;
-  }, [loading, children]);
+  }, [loading, children, loader]);
 
   return (
     <button
@@ -40,7 +40,7 @@ export const Button = forwardRef<HTMLButtonElement, IButtonProps>(function Compo
       ref={ref}
       {...props}
       className={className}
-      disabled={props.disabled || loading}
+      disabled={props.disabled ?? loading}
     >
       {content}
     </button>
