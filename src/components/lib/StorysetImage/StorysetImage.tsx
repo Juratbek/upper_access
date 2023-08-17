@@ -5,7 +5,7 @@ import { IStorysetImageProps } from './StorysetImage.types';
 
 export const StorysetImage: FC<IStorysetImageProps> = ({ storysetUri, className, ...props }) => {
   return (
-    <span className={className}>
+    <span className={className} role='storyset'>
       <img {...props} />
       <br />
       <a
