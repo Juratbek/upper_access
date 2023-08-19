@@ -1,5 +1,5 @@
 import { JSX } from 'react';
-import { Button, StorysetImage, Divider } from 'components/lib';
+import { StorysetImage, Divider } from 'components/lib';
 import { Header, LoginForm } from 'components/shared';
 import './styles/index.scss';
 import { GoogleSignIn, TelegramLoginButton } from 'components/auth';
@@ -12,10 +12,6 @@ function App(): JSX.Element {
         <StorysetImage width={500} height={500} src='/storyset/otp.svg' storysetUri='user' />
         <div style={{ width: '20rem' }}>
           <LoginForm />
-          <Button className='w-100 mb-1'>Kirish</Button>
-          <Button className='w-100' color='outline-dark'>
-            Ro'yxatdan o'tish
-          </Button>
           <Divider className='my-2' color='medium-gray' />
           <div>
             <GoogleSignIn id='sign-in' />

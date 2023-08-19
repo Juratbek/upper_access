@@ -1,5 +1,5 @@
 import { FC, useMemo } from 'react';
-import { getClassName } from 'utils/common';
+import { getClassName } from 'utils';
 
 import classes from './Divider.module.scss';
 import { IDividerProps } from './Divider.types';

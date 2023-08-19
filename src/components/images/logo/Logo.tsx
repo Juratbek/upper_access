@@ -4,6 +4,7 @@ import { ILogoProps } from './Logo.types';
 export const Logo: FC<ILogoProps> = ({ width = 133, height = 57, color = 'black' }) => {
   return (
     <svg
+      role='logo'
       width={width}
       height={height}
       viewBox='0 0 133 57'

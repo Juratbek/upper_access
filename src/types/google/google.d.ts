@@ -1,17 +1,21 @@
-interface IAccounts {
-  id: {
-    renderButton(
-      element: Element | null,
-      config: {
-        theme: 'filled_black' | 'outline';
-        shape: 'pill';
-        width: number;
-        locale: 'uz';
-      },
-    );
-  };
-}
+// interface IRenderButtonConfig {
+//   theme: 'filled_black' | 'outline';
+//   shape: 'pill';
+//   width: number;
+//   locale: 'uz';
+// }
 
-declare let google: {
-  accounts: IAccounts;
-};
+// type TGoogleSignInRenderButton = (
+//   element: Element | null,
+//   config: IRenderButtonConfig,
+// ) => Record<string, string>;
+
+// interface IAccounts {
+//   id: {
+//     renderButton: TGoogleSignInRenderButton;
+//   };
+// }
+
+// declare let google: {
+//   accounts: IAccounts;
+// };

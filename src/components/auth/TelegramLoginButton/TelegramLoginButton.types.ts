@@ -14,7 +14,6 @@ export interface ITelegramLoginButtonProps {
 }
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   interface Window {
     TelegramLoginWidget: {
       onAuth: (user: ITelegramUser) => void;

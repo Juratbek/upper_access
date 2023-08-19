@@ -14,7 +14,7 @@ describe('StorysetImage', () => {
     expect(img).toBeVisible();
     expect(img.width).toEqual(500);
     expect(img.height).toEqual(500);
-    expect(img.src).toEqual('http://localhost:3000/storyset/otp.svg');
+    expect(img.src).toContain('/storyset/otp.svg');
 
     const a = storysetImage.querySelector('a');
     expect(a).toBeVisible();
