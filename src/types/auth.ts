@@ -7,3 +7,5 @@ export interface ITelegramUser {
   id: number;
   username: string;
 }
+
+export type TAuthStatus = 'authenticated' | 'unauthenticated' | 'loading';

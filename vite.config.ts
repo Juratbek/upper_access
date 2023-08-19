@@ -12,6 +12,9 @@ export default defineConfig({
       components: '/src/components',
       utils: '/src/utils',
       styles: '/src/styles',
+      hooks: '/src/hooks',
+      context: '/src/context',
+      pages: '/src/pages',
     },
   },
   test: {
