@@ -3,10 +3,11 @@ import { FC, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { LOGIN_FORM_FIELDS } from './LoginForm.constants';
 import { TSubmitFormEvent } from 'types';
+import { ILoginFormProps } from './LoginForm.types';
 
 const { login, password } = LOGIN_FORM_FIELDS;
 
-export const LoginForm: FC = () => {
+export const LoginForm: FC<ILoginFormProps> = ({ onRegister }) => {
   const {
     register,
     formState: { errors },
@@ -33,7 +34,7 @@ export const LoginForm: FC = () => {
         <Input {...register(password.name, password.options)} type='password' id='password' />
       </div>
       <Button className='w-100 mb-1'>Kirish</Button>
-      <Button className='w-100' color='outline-dark'>
+      <Button className='w-100' color='outline-dark' onClick={onRegister}>
         Ro'yxatdan o'tish
       </Button>
     </form>

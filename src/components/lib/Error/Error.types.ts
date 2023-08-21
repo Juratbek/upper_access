@@ -3,7 +3,7 @@ import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
 export interface IErrorProps extends HTMLAttributes<HTMLSpanElement> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>> | undefined;
+  error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   message?: string;
   show?: boolean;
 }

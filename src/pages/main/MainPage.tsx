@@ -1,25 +1,31 @@
-import { JSX, useMemo } from 'react';
+import { JSX, useCallback, useMemo, useState } from 'react';
 import { StorysetImage, Divider } from 'components/lib';
-import { LoginForm } from 'components/shared';
+import { LoginForm, RegisterForm } from 'components/shared';
 import { GoogleSignIn, TelegramLoginButton } from 'components/auth';
 import { useAuth } from 'hooks';
+import { AuthLoading } from './components';
+import { TForm } from './MainPage.types';
 
 export function MainPage(): JSX.Element {
   const { status: authStatus } = useAuth();
+  const [formType, setFormType] = useState<TForm>('register');
+
+  const changeForm = useCallback((type: TForm) => () => setFormType(type), []);
+
+  const formComponent = useMemo(() => {
+    if (formType === 'login') return <LoginForm onRegister={changeForm('register')} />;
+    if (formType === 'register') return <RegisterForm />;
+    return null;
+  }, [formType, changeForm]);
 
   const authComponent = useMemo(() => {
     if (authStatus === 'loading') {
-      return (
-        <div className='d-flex flex-col justify-content-center h-100 align-items-center'>
-          <h3>Yuklanmoqda...</h3>
-          <p>iltimos kuting</p>
-        </div>
-      );
+      return <AuthLoading />;
     }
 
     return (
       <>
-        <LoginForm />
+        {formComponent}
         <Divider className='my-2' color='medium-gray' />
         <div>
           <GoogleSignIn id='sign-in' />
@@ -27,7 +33,7 @@ export function MainPage(): JSX.Element {
         </div>
       </>
     );
-  }, [authStatus]);
+  }, [authStatus, formComponent]);
 
   return (
     <div className='container d-flex justify-content-around'>
