@@ -8,7 +8,7 @@ import { TForm } from './MainPage.types';
 
 export function MainPage(): JSX.Element {
   const { status: authStatus } = useAuth();
-  const [formType, setFormType] = useState<TForm>('register');
+  const [formType, setFormType] = useState<TForm>('login');
 
   const changeForm = useCallback((type: TForm) => () => setFormType(type), []);
 
