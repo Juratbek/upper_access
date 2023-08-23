@@ -33,8 +33,10 @@ export const LoginForm: FC<ILoginFormProps> = ({ onRegister }) => {
         </label>
         <Input {...register(password.name, password.options)} type='password' id='password' />
       </div>
-      <Button className='w-100 mb-1'>Kirish</Button>
-      <Button className='w-100' color='outline-dark' onClick={onRegister}>
+      <Button className='w-100 mb-1' type='submit'>
+        Kirish
+      </Button>
+      <Button className='w-100' color='outline-dark' type='button' onClick={onRegister}>
         Ro'yxatdan o'tish
       </Button>
     </form>

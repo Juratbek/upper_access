@@ -3,7 +3,7 @@ import { LoginForm } from './LoginForm';
 
 describe('LoginForm', () => {
   it('render', () => {
-    const { container } = render(<LoginForm />);
+    const { container } = render(<LoginForm onRegister={vi.fn} />);
     const form = container.querySelector('form');
     expect(form).toBeVisible();
     const loginForm = screen.getByRole('login-form');
@@ -11,7 +11,7 @@ describe('LoginForm', () => {
   });
 
   it('render login input', () => {
-    const { container } = render(<LoginForm />);
+    const { container } = render(<LoginForm onRegister={vi.fn} />);
 
     const loginLabel = container.querySelector('#login') as HTMLLabelElement;
     expect(loginLabel).toBeVisible();
@@ -24,7 +24,7 @@ describe('LoginForm', () => {
   });
 
   it('render password input', () => {
-    const { container } = render(<LoginForm />);
+    const { container } = render(<LoginForm onRegister={vi.fn} />);
 
     const loginLabel = container.querySelector('#password') as HTMLLabelElement;
     expect(loginLabel).toBeVisible();
@@ -37,14 +37,18 @@ describe('LoginForm', () => {
   });
 
   it('validate login input', () => {
-    render(<LoginForm />);
+    render(<LoginForm onRegister={vi.fn} />);
 
     const loginInput = screen.getByTestId(/login/i);
     expect(loginInput).toBeVisible();
     fireEvent.input(loginInput, { target: { value: 'login' } });
 
-    const submitButton = screen.getByText('Kirish');
-    fireEvent.click(submitButton);
+    const submitButton = screen.getByText(/Kirish/i);
+    fireEvent.submit(submitButton);
+    screen.debug();
+
+    // const error = screen.getByRole('error');
+    // expect(error).toBeVisible();
 
     // const error = screen.getByText('Xato kiritilgan');
     // expect(error).toBeVisible();
