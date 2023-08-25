@@ -1,20 +1,20 @@
-import { JSX, useCallback, useMemo, useState } from 'react';
-import { StorysetImage, Divider } from 'components/lib';
-import { LoginForm, RegisterForm } from 'components/shared';
 import { GoogleSignIn, TelegramLoginButton } from 'components/auth';
+import { Divider, StorysetImage } from 'components/lib';
+import { LoginForm, RegisterForm } from 'components/shared';
 import { useAuth } from 'hooks';
-import { AuthLoading } from './components';
+import { JSX, useCallback, useMemo, useState } from 'react';
 import { TForm } from './MainPage.types';
+import { AuthLoading } from './components';
 
 export function MainPage(): JSX.Element {
   const { status: authStatus } = useAuth();
   const [formType, setFormType] = useState<TForm>('login');
 
   const changeForm = useCallback((type: TForm) => () => setFormType(type), []);
-
   const formComponent = useMemo(() => {
     if (formType === 'login') return <LoginForm onRegister={changeForm('register')} />;
-    if (formType === 'register') return <RegisterForm />;
+    if (formType === 'register')
+      return <RegisterForm resetFormType={changeForm('login')} formType={formType} />;
     return null;
   }, [formType, changeForm]);
 
@@ -26,6 +26,7 @@ export function MainPage(): JSX.Element {
     return (
       <>
         {formComponent}
+
         <Divider className='my-2' color='medium-gray' />
         <div>
           <GoogleSignIn id='sign-in' />
