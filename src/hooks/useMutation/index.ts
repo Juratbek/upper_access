@@ -12,21 +12,40 @@ const useMutation = (): TUseMutation & IMutationState => {
     status: 'idle',
   });
 
-  const mutate = async ({ method = 'post', url, data }: TArgsMutationFunction): Promise<void> => {
-    setState({ ...state, isLoading: true, error: null, status: 'loading' });
+  const mutate = async ({
+    method = 'post',
+    url,
+    data,
+    onSuccess,
+    onError,
+  }: TArgsMutationFunction): Promise<void> => {
+    setState({ ...state, isLoading: true, status: 'loading' });
     try {
       const response = await api[method](url, data);
+      if (onSuccess) {
+        onSuccess(response.data);
+      }
       setState({ ...state, data: response.data, isLoading: false, status: 'success' });
     } catch (error: AxiosError | unknown) {
       if (error instanceof AxiosError) {
+        if (onError) {
+          onError(error);
+        }
         setState({
           ...state,
           isLoading: false,
           isError: true,
           status: 'error',
-          error: error,
+          error,
         });
+        return;
       }
+      setState({
+        ...state,
+        isLoading: false,
+        isError: true,
+        status: 'error',
+      });
     }
   };
 

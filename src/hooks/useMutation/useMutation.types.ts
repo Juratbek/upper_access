@@ -15,5 +15,7 @@ export interface IMutationState {
 export type TArgsMutationFunction = {
   method?: 'post' | 'put';
   url: string;
-  data: { [key: string]: string | number | object | null };
+  data: { [key: string]: unknown } | FormData;
+  onSuccess?: (data: unknown) => void;
+  onError?: (error: unknown) => void;
 };
