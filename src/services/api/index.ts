@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
-const api: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_BASE_URL,
+export const api: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_APP_BASE_URL,
   timeout: 30000,
 });
 
@@ -20,5 +20,3 @@ api.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
-export default api;

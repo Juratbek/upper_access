@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import api from 'services/api';
-import { MutationState, TArgsMutationFunction, TUseMutation } from './useMutation.types';
+import { IMutationState, TArgsMutationFunction, TUseMutation } from './useMutation.types';
+import { AxiosError } from 'axios';
+import { api } from 'services';
 
-const useMutation = (): TUseMutation & MutationState => {
-  const [state, setState] = useState<MutationState>({
+const useMutation = (): TUseMutation & IMutationState => {
+  const [state, setState] = useState<IMutationState>({
     data: null,
     error: null,
     isError: false,
@@ -16,13 +17,16 @@ const useMutation = (): TUseMutation & MutationState => {
     try {
       const response = await api[method](url, data);
       setState({ ...state, data: response.data, isLoading: false, status: 'success' });
-    } catch (error) {
-      setState({
-        ...state,
-        isLoading: false,
-        status: 'error',
-        error: error,
-      });
+    } catch (error: AxiosError | unknown) {
+      if (error instanceof AxiosError) {
+        setState({
+          ...state,
+          isLoading: false,
+          isError: true,
+          status: 'error',
+          error: error,
+        });
+      }
     }
   };
 
