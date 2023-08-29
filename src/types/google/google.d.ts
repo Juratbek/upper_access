@@ -1,21 +1,34 @@
-// interface IRenderButtonConfig {
-//   theme: 'filled_black' | 'outline';
-//   shape: 'pill';
-//   width: number;
-//   locale: 'uz';
-// }
+interface IGoogleOAuthResponse {
+  clientId: string;
+  client_id: string;
+  credential: string;
+  select_by: string;
+}
 
-// type TGoogleSignInRenderButton = (
-//   element: Element | null,
-//   config: IRenderButtonConfig,
-// ) => Record<string, string>;
+interface IRenderButtonConfig {
+  theme: 'filled_black' | 'outline';
+  shape?: 'pill';
+  width?: number;
+  locale?: 'uz';
+  type?: 'icon';
+  size?: 'large';
+}
 
-// interface IAccounts {
-//   id: {
-//     renderButton: TGoogleSignInRenderButton;
-//   };
-// }
+type TGoogleSignInRenderButton = (
+  element: Element | null,
+  config: IRenderButtonConfig,
+) => Record<string, string>;
 
-// declare let google: {
-//   accounts: IAccounts;
-// };
+interface IAccounts {
+  id: {
+    renderButton: TGoogleSignInRenderButton;
+    initialize: (params: {
+      client_id: string;
+      callback: (data: IGoogleOAuthResponse) => void;
+    }) => void;
+  };
+}
+
+declare let google: {
+  accounts: IAccounts;
+};
