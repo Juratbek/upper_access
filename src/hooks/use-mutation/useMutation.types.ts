@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-export type TUseMutation = {
-  mutate: (args: TArgsMutationFunction) => Promise<void>;
+export type IUseMutation = {
+  mutate: (args: TMutationFunction) => Promise<void>;
 };
 
 export interface IMutationState {
@@ -12,7 +12,7 @@ export interface IMutationState {
   status: 'idle' | 'loading' | 'error' | 'success';
 }
 
-export type TArgsMutationFunction = {
+export type TMutationFunction = {
   method?: 'post' | 'put';
   url: string;
   data: { [key: string]: unknown } | FormData;
