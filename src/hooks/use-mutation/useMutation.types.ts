@@ -1,4 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios';
+
+export type TStatus = 'idle' | 'loading' | 'error' | 'success';
 export interface IUseMutation {
   mutate: (args: TMutationFunction) => Promise<void>;
   data: AxiosResponse | null;
@@ -6,7 +8,7 @@ export interface IUseMutation {
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
-  status: 'idle' | 'loading' | 'error' | 'success';
+  status: TStatus;
 }
 
 export type TMutationFunction = {
