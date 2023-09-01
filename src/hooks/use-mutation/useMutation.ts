@@ -8,6 +8,7 @@ export const useMutation = (): IUseMutation => {
   const [error, setError] = useState<AxiosError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle');
 
   const mutate = useCallback(
@@ -26,6 +27,7 @@ export const useMutation = (): IUseMutation => {
         setData(response.data);
         setIsLoading(false);
         setStatus('success');
+        setIsSuccess(true);
       } catch (error: AxiosError | unknown) {
         if (error instanceof AxiosError) {
           onError?.(error);
@@ -33,14 +35,16 @@ export const useMutation = (): IUseMutation => {
           setIsError(true);
           setStatus('error');
           setError(error);
+          setIsSuccess(false);
           return;
         }
         setIsLoading(false);
+        setIsSuccess(false);
         setStatus('error');
         setIsError(true);
       }
     },
     [],
   );
-  return { data, error, isError, isLoading, status, mutate };
+  return { data, error, isError, isLoading, status, isSuccess, mutate };
 };

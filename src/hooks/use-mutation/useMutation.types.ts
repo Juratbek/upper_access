@@ -1,11 +1,11 @@
 import { AxiosError, AxiosResponse } from 'axios';
-
 export interface IUseMutation {
   mutate: (args: TMutationFunction) => Promise<void>;
   data: AxiosResponse | null;
   error: AxiosError | null;
   isLoading: boolean;
   isError: boolean;
+  isSuccess: boolean;
   status: 'idle' | 'loading' | 'error' | 'success';
 }
 
