@@ -1,10 +1,7 @@
 import { AxiosError, AxiosResponse } from 'axios';
 
-export type IUseMutation = {
+export interface IUseMutation {
   mutate: (args: TMutationFunction) => Promise<void>;
-};
-
-export interface IMutationState {
   data: AxiosResponse | null;
   error: AxiosError | null;
   isLoading: boolean;
