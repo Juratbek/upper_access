@@ -1,16 +1,14 @@
 import { useCallback, useState } from 'react';
-import { IMutationState, TMutationFunction, IUseMutation } from './useMutation.types';
-import { AxiosError } from 'axios';
+import { TMutationFunction, IUseMutation } from './useMutation.types';
+import { AxiosError, AxiosResponse } from 'axios';
 import { axiosInstance } from 'services';
 
-export const useMutation = (): IUseMutation & IMutationState => {
-  const [state, setState] = useState<IMutationState>({
-    data: null,
-    error: null,
-    isError: false,
-    isLoading: false,
-    status: 'idle',
-  });
+export const useMutation = (): IUseMutation => {
+  const [data, setData] = useState<AxiosResponse | null>(null);
+  const [error, setError] = useState<AxiosError | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'error' | 'success'>('idle');
 
   const mutate = useCallback(
     async ({
@@ -20,32 +18,29 @@ export const useMutation = (): IUseMutation & IMutationState => {
       onError,
       onSuccess,
     }: TMutationFunction): Promise<void> => {
-      setState({ ...state, isLoading: true, status: 'loading' });
+      setIsLoading(true);
+      setStatus('loading');
       try {
         const response = await axiosInstance[method](url, data);
         onSuccess?.(response.data);
-        setState({ ...state, data: response.data, isLoading: false, status: 'success' });
+        setData(response.data);
+        setIsLoading(false);
+        setStatus('success');
       } catch (error: AxiosError | unknown) {
         if (error instanceof AxiosError) {
           onError?.(error);
-          setState({
-            ...state,
-            isLoading: false,
-            isError: true,
-            status: 'error',
-            error,
-          });
+          setIsLoading(false);
+          setIsError(true);
+          setStatus('error');
+          setError(error);
           return;
         }
-        setState({
-          ...state,
-          isLoading: false,
-          isError: true,
-          status: 'error',
-        });
+        setIsLoading(false);
+        setStatus('error');
+        setIsError(true);
       }
     },
-    [state],
+    [],
   );
-  return { ...state, mutate };
+  return { data, error, isError, isLoading, status, mutate };
 };
