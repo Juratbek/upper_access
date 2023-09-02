@@ -12,11 +12,11 @@ export const useMutation = (): IUseMutation => {
   const [status, setStatus] = useState<TStatus>('idle');
 
   const mutate: TMutationFunction = useCallback(
-    async ({ data, url, method = 'post', onError, onSuccess }) => {
+    async ({ data, url, method = 'POST', onError, onSuccess }) => {
       setIsLoading(true);
       setStatus('loading');
       try {
-        const response = await axiosInstance[method](url, data);
+        const response = await axiosInstance({ url, data, method });
         onSuccess?.(response.data);
         setData(response.data);
         setIsLoading(false);

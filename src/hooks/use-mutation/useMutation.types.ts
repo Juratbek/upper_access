@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 export type TStatus = 'idle' | 'loading' | 'error' | 'success';
 
 export type TMutationParams = {
-  method?: 'post' | 'put';
+  method?: 'POST' | 'PUT';
   url: string;
   data: { [key: string]: unknown } | FormData;
   onSuccess?: (data: unknown) => void;
