@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { TMutationFunction, IUseMutation, TStatus, TMutationParams } from './useMutation.types';
+import { TMutationFunction, IUseMutation, TStatus } from './useMutation.types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { axiosInstance } from 'services';
 
@@ -12,7 +12,7 @@ export const useMutation = (): IUseMutation => {
   const [status, setStatus] = useState<TStatus>('idle');
 
   const mutate: TMutationFunction = useCallback(
-    async ({ data, url, method = 'post', onError, onSuccess }: TMutationParams): Promise<void> => {
+    async ({ data, url, method = 'post', onError, onSuccess }) => {
       setIsLoading(true);
       setStatus('loading');
       try {
