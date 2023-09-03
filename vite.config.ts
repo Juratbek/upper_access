@@ -15,6 +15,7 @@ export default defineConfig({
       hooks: '/src/hooks',
       context: '/src/context',
       pages: '/src/pages',
+      services: '/src/services',
     },
   },
   test: {
