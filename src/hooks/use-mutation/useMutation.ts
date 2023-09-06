@@ -22,6 +22,7 @@ export const useMutation = (): IUseMutation => {
         setIsLoading(false);
         setStatus('success');
         setIsSuccess(true);
+        return response.data;
       } catch (error: AxiosError | unknown) {
         if (error instanceof AxiosError) {
           onError?.(error);
