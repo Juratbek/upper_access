@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
-import { TMutationFunction, IUseMutation, TMutationStatus, TObject } from './useMutation.types';
+import { TMutationFunction, IUseMutation, TMutationStatus } from './useMutation.types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { axiosInstance } from 'services';
 
-export const useMutation = <Body = TObject, Response = TObject>(): IUseMutation<Body, Response> => {
+export const useMutation = <Body = unknown, Response = unknown>(): IUseMutation<Body, Response> => {
   const [data, setData] = useState<AxiosResponse | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);

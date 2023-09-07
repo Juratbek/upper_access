@@ -18,15 +18,18 @@ export function MainPage(): JSX.Element {
     return null;
   }, [formType, changeForm]);
 
-  const { mutate: getTelegramAccountConnectedBlogs } = useMutation();
+  const { mutate: getTelegramAccountConnectedBlogs } = useMutation<ITelegramUser>();
 
-  const authHandler = useCallback(async (telegramUser: ITelegramUser) => {
-    const blogs = await getTelegramAccountConnectedBlogs({
-      url: '/blog/open/telegram-connected-blogs',
-      data: telegramUser,
-    });
-    console.log(blogs);
-  }, []);
+  const authHandler = useCallback(
+    async (telegramUser: ITelegramUser) => {
+      const blogs = await getTelegramAccountConnectedBlogs({
+        url: '/blog/open/telegram-connected-blogs',
+        data: telegramUser,
+      });
+      console.log('🚀 ~ file: MainPage.tsx:29 ~ blogs:', blogs);
+    },
+    [getTelegramAccountConnectedBlogs],
+  );
 
   const authComponent = useMemo(() => {
     if (authStatus === 'loading') {

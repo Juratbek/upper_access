@@ -16,7 +16,7 @@ export type TMutationFunction<Body, Response> = (
   params: TMutationParams<Body, Response>,
 ) => Promise<Pick<IUseMutation, 'data'>>;
 
-export interface IUseMutation<Body = TObject, Response = TObject> {
+export interface IUseMutation<Body = unknown, Response = unknown> {
   mutate: TMutationFunction<Body, Response>;
   data: AxiosResponse | null;
   error: AxiosError | null;
