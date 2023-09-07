@@ -1,17 +1,17 @@
 import { useCallback, useState } from 'react';
-import { TMutationFunction, IUseMutation, TStatus } from './useMutation.types';
+import { TMutationFunction, IUseMutation, TMutationStatus, TObject } from './useMutation.types';
 import { AxiosError, AxiosResponse } from 'axios';
 import { axiosInstance } from 'services';
 
-export const useMutation = (): IUseMutation => {
+export const useMutation = <Body = TObject, Response = TObject>(): IUseMutation<Body, Response> => {
   const [data, setData] = useState<AxiosResponse | null>(null);
   const [error, setError] = useState<AxiosError | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
-  const [status, setStatus] = useState<TStatus>('idle');
+  const [status, setStatus] = useState<TMutationStatus>('idle');
 
-  const mutate: TMutationFunction = useCallback(
+  const mutate: TMutationFunction<Body, Response> = useCallback(
     async ({ data, url, method = 'POST', onError, onSuccess }) => {
       setIsLoading(true);
       setStatus('loading');
