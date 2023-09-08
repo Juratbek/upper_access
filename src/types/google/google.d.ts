@@ -32,3 +32,10 @@ interface IAccounts {
 declare let google: {
   accounts: IAccounts;
 };
+
+declare let grecaptcha: {
+  enterprise: {
+    ready: (cb) => Promise<void>;
+    execute: (siteKey: string, config: { action: 'LOGIN' }) => Promise<string>;
+  };
+};
