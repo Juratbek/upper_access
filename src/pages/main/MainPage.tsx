@@ -1,11 +1,10 @@
 import { GoogleSignIn, TelegramLoginButton } from 'components/auth';
 import { Divider, StorysetImage } from 'components/lib';
 import { LoginForm, RegisterForm } from 'components/shared';
-import { useAuth, useMutation } from 'hooks';
+import { useAuth } from 'hooks';
 import { JSX, useCallback, useMemo, useState } from 'react';
 import { TForm } from './MainPage.types';
 import { AuthLoading } from './components';
-import { ITelegramUser } from 'types';
 
 export function MainPage(): JSX.Element {
   const { status: authStatus } = useAuth();
@@ -18,19 +17,6 @@ export function MainPage(): JSX.Element {
     return null;
   }, [formType, changeForm]);
 
-  const { mutate: getTelegramAccountConnectedBlogs } = useMutation<ITelegramUser>();
-
-  const authHandler = useCallback(
-    async (telegramUser: ITelegramUser) => {
-      const blogs = await getTelegramAccountConnectedBlogs({
-        url: '/blog/open/telegram-connected-blogs',
-        data: telegramUser,
-      });
-      console.log('🚀 ~ file: MainPage.tsx:29 ~ blogs:', blogs);
-    },
-    [getTelegramAccountConnectedBlogs],
-  );
-
   const authComponent = useMemo(() => {
     if (authStatus === 'loading') {
       return <AuthLoading />;
@@ -42,7 +28,7 @@ export function MainPage(): JSX.Element {
         <Divider className='my-2' color='medium-gray' />
         <div>
           <GoogleSignIn id='sign-in' />
-          <TelegramLoginButton onAuth={authHandler} botName='upper_local_dev_bot' />
+          <TelegramLoginButton botName='upper_local_dev_bot' />
         </div>
       </>
     );

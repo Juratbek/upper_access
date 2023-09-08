@@ -1,27 +1,34 @@
-import { AxiosError, AxiosResponse } from 'axios';
-
 export type TMutationStatus = 'idle' | 'loading' | 'error' | 'success';
 
 export type TObject = Record<string, unknown>;
 
-export type TMutationParams<Body, Response> = {
+export type TMutationParams<Body> = {
   method?: 'POST' | 'PUT';
   url: string;
   data: Body;
-  onSuccess?: (data: Response) => void;
-  onError?: (error: unknown) => void;
 };
 
 export type TMutationFunction<Body, Response> = (
-  params: TMutationParams<Body, Response>,
-) => Promise<Pick<IUseMutation, 'data'>>;
+  params: TMutationParams<Body>,
+) => Promise<Response | undefined>;
 
-export interface IUseMutation<Body = unknown, Response = unknown> {
+export interface IUseMutation<Body, Response> {
   mutate: TMutationFunction<Body, Response>;
-  data: AxiosResponse | null;
-  error: AxiosError | null;
+  data?: Response;
+  error?: unknown;
   isLoading: boolean;
   isError: boolean;
   isSuccess: boolean;
   status: TMutationStatus;
+}
+
+export interface IUseMutationConfig<Response> {
+  onSuccess?: (data: Response) => void;
+  onError?: (error: unknown) => void;
+}
+
+export interface IStatusesState {
+  isLoading: boolean;
+  isError: boolean;
+  isSuccess: boolean;
 }
