@@ -1,14 +1,29 @@
 import { Button } from 'components/lib';
-import { FC, useEffect } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 
 import { IGoogleSignInProps } from './GoogleSignIn.types';
+import { useAuth, useMutation } from 'hooks';
+import { IAuthData } from 'types';
 
 export const GoogleSignIn: FC<IGoogleSignInProps> = (props) => {
+  const { authenticate } = useAuth();
+
+  const { mutate: continueWithGoogle } = useMutation<string, IAuthData>({
+    onSuccess: authenticate,
+  });
+
+  const authSuccessHandler = useCallback(
+    (data: IGoogleOAuthResponse) => {
+      continueWithGoogle({ url: 'blog/open/continue-with-google', data: data.credential });
+    },
+    [continueWithGoogle],
+  );
+
   useEffect(() => {
     window.onload = function (): void {
       google.accounts.id.initialize({
         client_id: '764412195563-62aehnbr1lkrip1rh5rffijdhh4dm57f.apps.googleusercontent.com',
-        callback: console.log,
+        callback: authSuccessHandler,
       });
       google.accounts.id.renderButton(document.getElementById(props.id), {
         type: 'icon',
@@ -16,7 +31,7 @@ export const GoogleSignIn: FC<IGoogleSignInProps> = (props) => {
         size: 'large',
       });
     };
-  }, [props.id, props.width]);
+  }, [props.id, props.width, authSuccessHandler]);
 
   return (
     <Button

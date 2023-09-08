@@ -24,7 +24,7 @@ interface IAccounts {
     renderButton: TGoogleSignInRenderButton;
     initialize: (params: {
       client_id: string;
-      callback: (data: IGoogleOAuthResponse) => void;
+      callback?: (data: IGoogleOAuthResponse) => void;
     }) => void;
   };
 }
