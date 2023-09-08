@@ -62,12 +62,12 @@
   color: var(--blue);
 }
 
-.tansparent {
+.transparent {
   background-color: transparent;
   border: transparent;
   color: inherit;
   &:hover {
-    background-color: #dfdfdf;
+    background-color: #e8e8e8;
   }
 }
 

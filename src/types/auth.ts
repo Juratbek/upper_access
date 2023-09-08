@@ -9,3 +9,12 @@ export interface ITelegramUser {
 }
 
 export type TAuthStatus = 'authenticated' | 'unauthenticated' | 'loading';
+
+export interface IAuthData {
+  email: string;
+  id: number;
+  image: string;
+  name: string;
+  refreshToken: string;
+  token: string;
+}
