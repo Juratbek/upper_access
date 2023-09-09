@@ -5,7 +5,7 @@ import { IUseAuth, TAuthenticate } from './useAuth.types';
 export const useAuth = (): IUseAuth => {
   const context = useContext(AuthContext);
 
-  const authenticate: TAuthenticate = useCallback((data) => {
+  const authenticate: TAuthenticate = useCallback(async (data) => {
     console.log('authenticated', data);
   }, []);
 

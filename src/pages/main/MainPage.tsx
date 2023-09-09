@@ -12,7 +12,7 @@ export function MainPage(): JSX.Element {
 
   const changeForm = useCallback((type: TForm) => () => setFormType(type), []);
   const formComponent = useMemo(() => {
-    if (formType === 'login') return <LoginForm onRegister={changeForm('register')} />;
+    if (formType === 'login') return <LoginForm onChangeForm={changeForm('register')} />;
     if (formType === 'register') return <RegisterForm resetFormType={changeForm('login')} />;
     return null;
   }, [formType, changeForm]);

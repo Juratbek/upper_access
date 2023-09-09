@@ -6,15 +6,16 @@ import {
   TMutationFunction,
   TMutationStatus,
 } from './useMutation.types';
-import { AxiosResponse } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import { axiosInstance } from 'services';
+import { IApiErrorResponse } from 'types';
 
-export const useMutation = <Body, Response>(
-  config?: IUseMutationConfig<Response>,
-): IUseMutation<Body, Response> => {
+export const useMutation = <Body, Response, Error = IApiErrorResponse>(
+  config?: IUseMutationConfig<Response, Error>,
+): IUseMutation<Body, Response, Error> => {
   const { onError, onSuccess } = config || {};
   const [data, setData] = useState<Response>();
-  const [error, setError] = useState<unknown>();
+  const [error, setError] = useState<AxiosError<Error>>();
   const [status, setStatus] = useState<TMutationStatus>('idle');
   const [statuses, setStatuses] = useState<IStatusesState>({
     isLoading: false,
@@ -37,7 +38,7 @@ export const useMutation = <Body, Response>(
   );
 
   const errorHandler = useCallback(
-    (error: unknown) => {
+    (error: AxiosError<Error>) => {
       onError?.(error);
       setError(error);
       setStatus('error');
@@ -62,7 +63,7 @@ export const useMutation = <Body, Response>(
         successHandler(response);
         return response.data;
       } catch (error: unknown) {
-        errorHandler(error);
+        errorHandler(error as AxiosError<Error>);
       }
     },
     [successHandler, errorHandler],

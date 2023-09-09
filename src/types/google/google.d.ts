@@ -24,11 +24,18 @@ interface IAccounts {
     renderButton: TGoogleSignInRenderButton;
     initialize: (params: {
       client_id: string;
-      callback: (data: IGoogleOAuthResponse) => void;
+      callback?: (data: IGoogleOAuthResponse) => void;
     }) => void;
   };
 }
 
 declare let google: {
   accounts: IAccounts;
+};
+
+declare let grecaptcha: {
+  enterprise: {
+    ready: (cb) => Promise<void>;
+    execute: (siteKey: string, config: { action: 'LOGIN' }) => Promise<string>;
+  };
 };
