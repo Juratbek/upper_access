@@ -1,40 +1,63 @@
-import { Button, Error, Input } from 'components/lib';
+import { Alert, Button, Error, Input } from 'components/lib';
 import { FC, useCallback, useState } from 'react';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { REGISTER_FORM_FIELDS } from './RegisterForm.constants';
-import { TSubmitFormEvent } from 'types';
+import { IApiErrorResponse, IAuthData, TSubmitFormEvent } from 'types';
 import { PasswordValidityLevel, UsernameValidityError } from '..';
+import { useAuth, useMutation } from 'hooks';
+import { AxiosError } from 'axios';
+import { IRegisterDto } from './RegisterForm.types';
+import { useRecaptcha } from 'hooks/use-recaptcha/useRecaptcha';
 
 const { name, bio, login, password, email } = REGISTER_FORM_FIELDS;
 
 export const RegisterForm: FC<{ resetFormType: () => void }> = ({ resetFormType }) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
+  const [alert, setAlert] = useState<string>();
+  const { authenticate } = useAuth();
+  const { getToken: getRecaptchaToken } = useRecaptcha();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
     clearErrors,
     watch,
-    reset,
+    // reset,
   } = useForm();
   const incrementCurrentStep = useCallback(() => setCurrentStep((prev) => ++prev), []);
   const decrementCurrentStep = useCallback(() => setCurrentStep((prev) => --prev), []);
 
+  const registerErrorHandler = useCallback((error: AxiosError<IApiErrorResponse>) => {
+    const { response } = error;
+    setAlert(response?.data.message);
+  }, []);
+
+  const { mutate: registerWithCredentials } = useMutation<IRegisterDto, IAuthData>({
+    onError: registerErrorHandler,
+    onSuccess: authenticate,
+  });
+
   const submitHandler = useCallback(
-    (event: TSubmitFormEvent) => {
-      try {
-        reset();
-      } catch (e) {
-        console.log(e);
-      }
-      console.log('🚀 ~ file: LoginForm.tsx:17 ~ submitHandler ~ event:', event);
+    async (event: TSubmitFormEvent) => {
+      const { name, bio, login, password, email } = event;
+      const payload = {
+        ...(bio && { bio: bio }),
+        ...(email && { email: email }),
+        name,
+        username: login,
+        password,
+      };
+      const token = await getRecaptchaToken();
+      registerWithCredentials({
+        url: 'open/register',
+        data: { ...payload, reCaptchaResponse: token },
+      });
     },
-    [reset],
+    [registerWithCredentials, getRecaptchaToken],
   );
 
   const errorHandler = async (e: FieldErrors): Promise<void> => {
-    console.log(e);
-
     if (currentStep === 1) {
       if (!(name.name in e || bio.name in e)) {
         incrementCurrentStep();
@@ -45,6 +68,7 @@ export const RegisterForm: FC<{ resetFormType: () => void }> = ({ resetFormType 
 
   return (
     <form onSubmit={handleSubmit(submitHandler, errorHandler)} role='register-form'>
+      <Alert show={Boolean(alert)}>{alert}</Alert>
       <div>
         <div className='mb-2' style={{ display: currentStep === 1 ? 'block' : 'none' }}>
           <div className='mb-2'>
@@ -112,14 +136,20 @@ export const RegisterForm: FC<{ resetFormType: () => void }> = ({ resetFormType 
         <Button className='w-100 mb-2'>
           {currentStep === 2 ? "Ro'yxatdan o'tish" : 'Davom etish'}
         </Button>
-        {currentStep !== 1 && (
-          <Button color='outline-dark' className='w-100' onClick={decrementCurrentStep}>
+        {currentStep === 1 ? (
+          <Button color='outline-dark' type='button' className='w-100' onClick={resetFormType}>
+            Ortga
+          </Button>
+        ) : (
+          <Button
+            color='outline-dark'
+            type='button'
+            className='w-100'
+            onClick={decrementCurrentStep}
+          >
             Ortga
           </Button>
         )}
-        <Button color='outline-dark' className='w-100' onClick={resetFormType}>
-          Ortga
-        </Button>
       </div>
     </form>
   );
