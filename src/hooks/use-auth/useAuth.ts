@@ -9,8 +9,9 @@ export const useAuth = (): IUseAuth => {
 
   const authenticate: TAuthenticate = useCallback(
     (data) => {
-      getParam('callback-url');
       console.log('authenticated', data);
+      window.opener.postMessage(data, getParam('origin'));
+      window.close();
     },
     [getParam],
   );
