@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { LOGIN_FORM_FIELDS } from './LoginForm.constants';
 import { IApiErrorResponse, IAuthData, TSubmitFormEvent } from 'types';
 import { ILoginDto, ILoginFormProps } from './LoginForm.types';
-import { useMutation } from 'hooks';
+import { useAuth, useMutation } from 'hooks';
 import { AxiosError } from 'axios';
 import { useRecaptcha } from 'hooks/use-recaptcha/useRecaptcha';
 
@@ -13,6 +13,7 @@ const { login, password } = LOGIN_FORM_FIELDS;
 export const LoginForm: FC<ILoginFormProps> = ({ onChangeForm }) => {
   const { getToken: getRecaptchaToken } = useRecaptcha();
   const [alert, setAlert] = useState<string>();
+  const { authenticate } = useAuth();
 
   const loginErrorHandler = useCallback((error: AxiosError<IApiErrorResponse>) => {
     const { response } = error;
@@ -21,6 +22,7 @@ export const LoginForm: FC<ILoginFormProps> = ({ onChangeForm }) => {
 
   const { mutate: loginWithCredentials } = useMutation<ILoginDto, IAuthData>({
     onError: loginErrorHandler,
+    onSuccess: authenticate,
   });
   const {
     register,
@@ -37,6 +39,7 @@ export const LoginForm: FC<ILoginFormProps> = ({ onChangeForm }) => {
         data: { username, password, reCaptchaResponse: token },
       });
     },
+
     [loginWithCredentials, getRecaptchaToken],
   );
 
