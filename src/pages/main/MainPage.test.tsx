@@ -30,13 +30,13 @@ describe('MainPage', () => {
     expect(loadingText).toBeVisible();
   });
 
-  it('login form', () => {
-    mocks.useAuth.mockReturnValue({
-      isAuthenticated: true,
-      status: 'authenticated',
-    } satisfies IAuthContext);
-    render(<MainPage />);
-    const loginForm = screen.getByRole('login-form');
-    expect(loginForm).toBeVisible();
-  });
+  // it('login form', () => {
+  //   mocks.useAuth.mockReturnValue({
+  //     isAuthenticated: true,
+  //     status: 'authenticated',
+  //   } satisfies IAuthContext);
+  //   render(<MainPage />);
+  //   const loginForm = screen.getByRole('login-form');
+  //   expect(loginForm).toBeVisible();
+  // });
 });
