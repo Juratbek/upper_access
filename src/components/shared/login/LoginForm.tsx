@@ -3,14 +3,14 @@ import { FC, useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { LOGIN_FORM_FIELDS } from './LoginForm.constants';
 import { IApiErrorResponse, IAuthData, TSubmitFormEvent } from 'types';
-import { ILoginDto, ILoginFormProps } from './LoginForm.types';
+import { ILoginDto } from './LoginForm.types';
 import { useAuth, useMutation } from 'hooks';
 import { AxiosError } from 'axios';
 import { useRecaptcha } from 'hooks/use-recaptcha/useRecaptcha';
 
 const { login, password } = LOGIN_FORM_FIELDS;
 
-export const LoginForm: FC<ILoginFormProps> = ({ onChangeForm }) => {
+export const LoginForm: FC = () => {
   const { getToken: getRecaptchaToken } = useRecaptcha();
   const [alert, setAlert] = useState<string>();
   const { authenticate } = useAuth();
@@ -61,9 +61,6 @@ export const LoginForm: FC<ILoginFormProps> = ({ onChangeForm }) => {
       </div>
       <Button className='w-100 mb-1' type='submit'>
         Kirish
-      </Button>
-      <Button className='w-100' color='outline-dark' type='button' onClick={onChangeForm}>
-        Ro'yxatdan o'tish
       </Button>
     </form>
   );
