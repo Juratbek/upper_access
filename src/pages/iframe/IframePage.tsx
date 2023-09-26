@@ -19,12 +19,8 @@ export const IFrame: FC = () => {
 
   const listener = useCallback(
     (event: MessageEvent): void => {
-      if (!origin) {
-        console.error('Origin is not provided');
-      } else if (!ALLOWED_ORIGINS.includes(origin)) {
-        console.error(`${origin} is not allowed to get auth informations`);
-      } else {
-        window.parent.postMessage(event.data, 'http://localhost:3001');
+      if (origin) {
+        window.parent.postMessage(event.data, origin);
       }
     },
     [origin],
@@ -35,6 +31,14 @@ export const IFrame: FC = () => {
 
     return () => window.removeEventListener('message', listener);
   }, [listener]);
+
+  if (!origin) {
+    console.error('Origin is not provided');
+    return null;
+  } else if (!ALLOWED_ORIGINS.includes(origin)) {
+    console.error(`${origin} is not allowed to get auth informations`);
+    return null;
+  }
 
   return (
     <Button style={styles} onClick={openAccessPageInNewTab}>
