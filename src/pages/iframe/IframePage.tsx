@@ -11,8 +11,7 @@ export const IFrame: FC = () => {
   };
 
   const styles: CSSProperties = {
-    width: getParam('width') ?? 100,
-    height: getParam('height') ?? 40,
+    width: getParam('width') ?? 150,
   };
 
   const origin = getParam('origin');
