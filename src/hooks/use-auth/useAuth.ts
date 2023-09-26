@@ -1,20 +1,14 @@
 import { AuthContext } from 'context/auth';
 import { useCallback, useContext, useMemo } from 'react';
 import { IUseAuth, TAuthenticate } from './useAuth.types';
-import { useParams } from 'hooks';
 
 export const useAuth = (): IUseAuth => {
   const context = useContext(AuthContext);
-  const { getParam } = useParams();
 
-  const authenticate: TAuthenticate = useCallback(
-    (data) => {
-      console.log('authenticated', data);
-      window.opener.postMessage(data, getParam('origin'));
-      window.close();
-    },
-    [getParam],
-  );
+  const authenticate: TAuthenticate = useCallback((data) => {
+    window.opener.postMessage(data, window.location.origin);
+    window.close();
+  }, []);
 
   const store: IUseAuth = useMemo(
     () => ({
