@@ -6,7 +6,7 @@ import { IStorysetImageProps } from './StorysetImage.types';
 export const StorysetImage: FC<IStorysetImageProps> = ({ storysetUri, className, ...props }) => {
   return (
     <span className={className} role='storyset'>
-      <img {...props} />
+      <img {...props} style={{ widows: '100%', height: '100%' }} />
       <br />
       <a
         className={`${classes['storyset-link']} link`}

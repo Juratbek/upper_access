@@ -1,7 +1,26 @@
 @import 'styles/_mixins';
 
 .container {
+  margin-top: 8rem;
   @include screenMax576 {
     flex-direction: column;
+    margin-top: 0;
+    align-items: center;
+    gap: 4rem;
   }
+}
+
+.image {
+  $size: 18rem;
+  width: $size;
+  height: $size;
+
+  @include screenMax576 {
+    text-align: center;
+    height: 10rem;
+  }
+}
+
+.form {
+  width: 300px;
 }

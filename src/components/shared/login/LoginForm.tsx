@@ -59,7 +59,7 @@ export const LoginForm: FC = () => {
         </label>
         <Input {...register(password.name, password.options)} type='password' id='password' />
       </div>
-      <Button className='w-100 mb-1' type='submit'>
+      <Button className='w-100' type='submit'>
         Kirish
       </Button>
     </form>

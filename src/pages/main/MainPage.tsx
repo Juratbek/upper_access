@@ -16,19 +16,19 @@ export function MainPage(): JSX.Element {
     }
 
     return (
-      <div style={{ width: 300, marginTop: '7rem' }}>
+      <>
         <LoginForm />
-        <Divider className='my-2' color='medium-gray' />
+        <Divider className='my-1' color='medium-gray' />
         <GoogleSignIn id='sign-in' className='mb-1' />
         <TelegramLoginButton botName={import.meta.env.VITE_TELEGRAM_BOT} />
-      </div>
+      </>
     );
   }, [authStatus]);
 
   return (
     <div className={`${classes.container} container d-flex justify-content-around`}>
-      <StorysetImage width={500} height={500} src='/storyset/otp.svg' storysetUri='user' />
-      <div style={{ width: '20rem' }}>{authComponent}</div>
+      <StorysetImage className={classes.image} src='/storyset/otp.svg' storysetUri='user' />
+      <div className={classes.form}>{authComponent}</div>
     </div>
   );
 }
