@@ -12,6 +12,7 @@ interface IRenderButtonConfig {
   locale?: 'uz';
   type?: 'icon';
   size?: 'large';
+  text?: 'continue_with';
 }
 
 type TGoogleSignInRenderButton = (

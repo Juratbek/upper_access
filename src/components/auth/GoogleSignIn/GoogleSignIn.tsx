@@ -26,9 +26,10 @@ export const GoogleSignIn: FC<IGoogleSignInProps> = (props) => {
         callback: authSuccessHandler,
       });
       google.accounts.id.renderButton(document.getElementById(props.id), {
-        type: 'icon',
         theme: 'outline',
         size: 'large',
+        text: 'continue_with',
+        width: 300,
       });
     };
   }, [props.id, props.width, authSuccessHandler]);
