@@ -1,7 +1,8 @@
 import { Button } from 'components/lib';
 import { useParams } from 'hooks';
 import { CSSProperties, FC, useCallback, useEffect } from 'react';
-import { ALLOWED_ORIGINS } from './IframePage.constants';
+import { ALLOWED_ORIGINS, BTN_TEXTS } from './IframePage.constants';
+import { TBtn } from './IframePage.types';
 
 export const IFrame: FC = () => {
   const { getParam } = useParams();
@@ -15,6 +16,7 @@ export const IFrame: FC = () => {
   };
 
   const origin = getParam('origin');
+  const btnType = (getParam('type') as TBtn) ?? 'signIn';
 
   const listener = useCallback(
     (event: MessageEvent): void => {
@@ -33,15 +35,13 @@ export const IFrame: FC = () => {
 
   if (!origin) {
     console.error('Origin is not provided');
-    return null;
   } else if (!ALLOWED_ORIGINS.includes(origin)) {
     console.error(`${origin} is not allowed to get auth informations`);
-    return null;
   }
 
   return (
     <Button style={styles} onClick={openAccessPageInNewTab}>
-      Profilga kirish
+      {BTN_TEXTS[btnType]}
     </Button>
   );
 };
