@@ -19,7 +19,7 @@ export function MainPage(): JSX.Element {
         <Divider className='my-2' color='medium-gray' />
         <div>
           <GoogleSignIn id='sign-in' />
-          <TelegramLoginButton botName='upper_local_dev_bot' />
+          <TelegramLoginButton botName={import.meta.env.VITE_TELEGRAM_BOT} />
         </div>
       </>
     );
