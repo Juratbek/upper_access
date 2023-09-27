@@ -12,7 +12,7 @@ export const IFrame: FC = () => {
   };
 
   const styles: CSSProperties = {
-    width: getParam('width') ?? 150,
+    width: Number(getParam('width')) || 150,
   };
 
   const origin = getParam('origin');
