@@ -20,7 +20,7 @@ export const IFrame: FC = () => {
 
   const listener = useCallback(
     (event: MessageEvent): void => {
-      if (origin) {
+      if (origin && ALLOWED_ORIGINS.includes(origin)) {
         window.parent.postMessage(event.data, origin);
       }
     },
