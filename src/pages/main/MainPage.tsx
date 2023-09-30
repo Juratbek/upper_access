@@ -1,9 +1,8 @@
 import { GoogleSignIn, TelegramLoginButton } from 'components/auth';
 import { Divider, StorysetImage } from 'components/lib';
-import { LoginForm } from 'components/shared';
 import { useAuth } from 'hooks';
 import { JSX, useMemo } from 'react';
-import { AuthLoading } from './components';
+import { AuthLoading, LoginForm } from './components';
 
 import classes from './MainPage.module.scss';
 
