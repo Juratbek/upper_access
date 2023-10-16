@@ -4,7 +4,7 @@ export const Footer: FC = () => {
   return (
     <footer>
       <div className='container text-center'>
-        <p className='text-gray'>
+        <p className='text-gray' style={{ fontSize: '0.8rem' }}>
           Saytni ishlatishda xatolik yuz berdimi?
           <br />
           Iltimos bu haqda{' '}
