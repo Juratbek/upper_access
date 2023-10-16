@@ -49,16 +49,12 @@ export const LoginForm: FC = () => {
         {alert}
       </Alert>
       <div className='mb-2'>
-        <label htmlFor='login' id='login'>
-          Login
-        </label>
+        <label htmlFor='login'>Login</label>
         <Input {...register(login.name, login.options)} id='login' data-testid='login' />
         <Error error={errors.username} />
       </div>
       <div className='mb-2'>
-        <label htmlFor='password' id='password'>
-          Password
-        </label>
+        <label htmlFor='password'>Password</label>
         <Input {...register(password.name, password.options)} type='password' id='password' />
       </div>
       <Button className='w-100' type='submit'>
