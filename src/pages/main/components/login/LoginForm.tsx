@@ -45,7 +45,9 @@ export const LoginForm: FC = () => {
 
   return (
     <form role='login-form' onSubmit={handleSubmit(submitHandler)}>
-      <Alert show={Boolean(alert)}>{alert}</Alert>
+      <Alert className='mb-2' show={Boolean(alert)}>
+        {alert}
+      </Alert>
       <div className='mb-2'>
         <label htmlFor='login' id='login'>
           Login
