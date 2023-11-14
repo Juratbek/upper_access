@@ -6,12 +6,10 @@ import { IApiErrorResponse, IAuthData, TSubmitFormEvent } from 'types';
 import { ILoginDto } from './LoginForm.types';
 import { useAuth, useMutation } from 'hooks';
 import { AxiosError } from 'axios';
-import { useRecaptcha } from 'hooks/use-recaptcha/useRecaptcha';
 
 const { login, password } = LOGIN_FORM_FIELDS;
 
 export const LoginForm: FC = () => {
-  const { getToken: getRecaptchaToken } = useRecaptcha();
   const [alert, setAlert] = useState<string>();
   const { authenticate } = useAuth();
 
@@ -33,14 +31,13 @@ export const LoginForm: FC = () => {
   const submitHandler = useCallback(
     async (event: TSubmitFormEvent) => {
       const { username, password } = event;
-      const token = await getRecaptchaToken();
       loginWithCredentials({
         url: 'blog/open/login',
-        data: { username, password, reCaptchaResponse: token },
+        data: { username, password },
       });
     },
 
-    [loginWithCredentials, getRecaptchaToken],
+    [loginWithCredentials],
   );
 
   return (
