@@ -1,14 +1,26 @@
 import { AuthContext } from 'context/auth';
 import { useCallback, useContext, useMemo } from 'react';
-import { IUseAuth, TAuthenticate } from './useAuth.types';
+import { IUseAuth, TApplication, TAuthenticate } from './useAuth.types';
+import { useParams } from 'hooks';
 
 export const useAuth = (): IUseAuth => {
   const context = useContext(AuthContext);
+  const { getParam } = useParams();
+  const application = getParam('application') as TApplication;
 
-  const authenticate: TAuthenticate = useCallback((data) => {
-    window.opener.postMessage(data, window.location.origin);
-    window.close();
-  }, []);
+  const authenticate: TAuthenticate = useCallback(
+    (data) => {
+      if (application === 'mobile') {
+        const link = document.createElement('a');
+        link.href = 'upper://test';
+        link.click();
+      } else {
+        window.opener.postMessage(data, window.location.origin);
+      }
+      window.close();
+    },
+    [application],
+  );
 
   const store: IUseAuth = useMemo(
     () => ({
