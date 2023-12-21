@@ -7,21 +7,22 @@ export const useAuth = (): IUseAuth => {
   const context = useContext(AuthContext);
   const { getParam } = useParams();
   const application = getParam('application') as TApplication;
+  const callback = getParam('callback') ?? 'auth';
 
   const authenticate: TAuthenticate = useCallback(
     (data) => {
       if (application === 'mobile') {
         const link = document.createElement('a');
-        link.href = 'upper://test';
+        link.href = `upper://${callback}?token=${data.token}`;
         link.target = '_blank';
         document.body.appendChild(link);
         link.click();
       } else {
         window.opener.postMessage(data, window.location.origin);
-        window.close();
       }
+      window.close();
     },
-    [application],
+    [application, callback],
   );
 
   const store: IUseAuth = useMemo(

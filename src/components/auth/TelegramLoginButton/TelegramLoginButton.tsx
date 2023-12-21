@@ -15,7 +15,7 @@ export const TelegramLoginButton: FC<ITelegramLoginButtonProps> = (props) => {
 
   const selectBlogHandler = (blog: IBlogSmall) => async (): Promise<void> => {
     if (!telegramUserState) {
-      return Promise.reject('Telegram user is not present');
+      throw new Error('Telegram data is not present');
     }
     const authData = await loginWithTelegram({
       url: `blog/open/login-with-telegram/${blog.id}`,
