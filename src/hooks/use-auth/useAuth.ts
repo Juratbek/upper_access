@@ -13,11 +13,13 @@ export const useAuth = (): IUseAuth => {
       if (application === 'mobile') {
         const link = document.createElement('a');
         link.href = 'upper://test';
+        link.target = '_blank';
+        document.body.appendChild(link);
         link.click();
       } else {
         window.opener.postMessage(data, window.location.origin);
+        window.close();
       }
-      window.close();
     },
     [application],
   );

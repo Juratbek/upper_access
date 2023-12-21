@@ -1,38 +1,35 @@
 import { Button } from 'components/lib';
-import { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { IAuthData, IBlogSmall, ITelegramUser } from 'types';
 
 import { ITelegramLoginButtonProps } from './TelegramLoginButton.types';
 import { useAuth, useMutation } from 'hooks';
 
+let telegramUserState: ITelegramUser | null = null;
+
 export const TelegramLoginButton: FC<ITelegramLoginButtonProps> = (props) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [telegramUser, setTelegramUser] = useState<ITelegramUser>();
   const { authenticate } = useAuth();
 
   const { mutate: loginWithTelegram } = useMutation<ITelegramUser, IAuthData>();
 
-  const selectBlogHandler = useCallback(
-    (blog: IBlogSmall) => async () => {
-      if (!telegramUser) return Promise.reject();
-      const authData = await loginWithTelegram({
-        url: `blog/open/login-with-telegram/${blog.id}`,
-        data: telegramUser,
-      });
-      authData && authenticate(authData);
-    },
-    [telegramUser, loginWithTelegram, authenticate],
-  );
+  const selectBlogHandler = (blog: IBlogSmall) => async (): Promise<void> => {
+    if (!telegramUserState) {
+      return Promise.reject('Telegram user is not present');
+    }
+    const authData = await loginWithTelegram({
+      url: `blog/open/login-with-telegram/${blog.id}`,
+      data: telegramUserState,
+    });
+    authData && authenticate(authData);
+  };
 
-  const telegramConnectionsSuccessHandler = useCallback(
-    (blogs: IBlogSmall[]) => {
-      if (blogs.length === 1) {
-        const [blog] = blogs;
-        selectBlogHandler(blog)();
-      }
-    },
-    [selectBlogHandler],
-  );
+  const telegramConnectionsSuccessHandler = (blogs: IBlogSmall[]): void => {
+    if (blogs.length === 1) {
+      const [blog] = blogs;
+      selectBlogHandler(blog)();
+    }
+  };
 
   const { mutate: getTelegramAccountConnectedBlogs, data: connectedBlogs } = useMutation<
     ITelegramUser,
@@ -43,7 +40,7 @@ export const TelegramLoginButton: FC<ITelegramLoginButtonProps> = (props) => {
 
   const authHandler = useCallback(
     (telegramUser: ITelegramUser) => {
-      setTelegramUser(telegramUser);
+      telegramUserState = telegramUser;
       getTelegramAccountConnectedBlogs({
         url: 'blog/open/telegram-connected-blogs',
         data: telegramUser,
