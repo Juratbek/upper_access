@@ -18,7 +18,8 @@ export const useAuth = (): IUseAuth => {
         document.body.appendChild(link);
         link.click();
       } else {
-        window.opener.postMessage(data, window.location.origin);
+        const allowedOrigin = import.meta.env.VITE_ALLOWED_ORIGIN ?? window.location.origin;
+        window.opener.postMessage(data, allowedOrigin);
       }
       window.close();
     },
