@@ -1,9 +1,11 @@
-import { Button } from 'components/lib';
+import { Button, Spinner } from 'components/lib';
 import { FC, useCallback, useEffect } from 'react';
 
 import { IGoogleSignInProps } from './GoogleSignIn.types';
 import { useAuth, useMutation } from 'hooks';
 import { IAuthData } from 'types';
+
+import classes from './GoogleSignIn.module.scss';
 
 export const GoogleSignIn: FC<IGoogleSignInProps> = (props) => {
   const { authenticate } = useAuth();
@@ -38,8 +40,11 @@ export const GoogleSignIn: FC<IGoogleSignInProps> = (props) => {
     <Button
       id={props.id}
       type='button'
+      color='outline-dark'
       style={{ padding: 0, overflow: 'hidden' }}
-      className={props.className}
-    />
+      className={`${classes.btn} ${props.className}`}
+    >
+      <Spinner />
+    </Button>
   );
 };
