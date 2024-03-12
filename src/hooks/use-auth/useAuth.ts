@@ -19,7 +19,10 @@ export const useAuth = (): IUseAuth => {
         link.click();
       } else {
         const allowedOrigin = import.meta.env.VITE_ALLOWED_ORIGIN ?? window.location.origin;
-        window.opener.postMessage(data, allowedOrigin);
+        if (!window.opener) {
+          console.error('window.opener is not defined');
+        }
+        window.opener?.postMessage(data, allowedOrigin);
       }
       window.close();
     },

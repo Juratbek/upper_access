@@ -1,4 +1,4 @@
-import { Button } from 'components/lib';
+import { Button, Error as ErrorComponent } from 'components/lib';
 import { FC, useCallback, useEffect, useRef } from 'react';
 import { IAuthData, IBlogSmall, ITelegramUser } from 'types';
 
@@ -11,7 +11,10 @@ export const TelegramLoginButton: FC<ITelegramLoginButtonProps> = (props) => {
   const ref = useRef<HTMLDivElement>(null);
   const { authenticate } = useAuth();
 
-  const { mutate: loginWithTelegram } = useMutation<ITelegramUser, IAuthData>();
+  const { mutate: loginWithTelegram, isLoading: isLoggingIn } = useMutation<
+    ITelegramUser,
+    IAuthData
+  >();
 
   const selectBlogHandler = (blog: IBlogSmall) => async (): Promise<void> => {
     if (!telegramUserState) {
@@ -31,10 +34,11 @@ export const TelegramLoginButton: FC<ITelegramLoginButtonProps> = (props) => {
     }
   };
 
-  const { mutate: getTelegramAccountConnectedBlogs, data: connectedBlogs } = useMutation<
-    ITelegramUser,
-    IBlogSmall[]
-  >({
+  const {
+    mutate: getTelegramAccountConnectedBlogs,
+    data: connectedBlogs,
+    ...getConnectedBlogsRes
+  } = useMutation<ITelegramUser, IBlogSmall[]>({
     onSuccess: telegramConnectionsSuccessHandler,
   });
 
@@ -56,7 +60,6 @@ export const TelegramLoginButton: FC<ITelegramLoginButtonProps> = (props) => {
     buttonSize = 'large',
     cornerRadius,
     shouldRequestAccess = true,
-    isLoading,
   } = props;
 
   useEffect(() => {
@@ -86,6 +89,8 @@ export const TelegramLoginButton: FC<ITelegramLoginButtonProps> = (props) => {
     ref.current.appendChild(script);
   }, [botName, buttonSize, cornerRadius, authHandler, shouldRequestAccess, shouldUsePic, ref]);
 
+  const isLoading = getConnectedBlogsRes.isLoading || props.isLoading || isLoggingIn;
+
   if (connectedBlogs?.length && connectedBlogs.length > 1) {
     return (
       <>
@@ -107,6 +112,12 @@ export const TelegramLoginButton: FC<ITelegramLoginButtonProps> = (props) => {
   return isLoading ? (
     <Button loading={true} color='blue' className={`w-100 ${className}`} />
   ) : (
-    <div ref={ref} id='test' className={className} />
+    <>
+      <div ref={ref} id='test' className={className} />
+      <ErrorComponent
+        show={getConnectedBlogsRes.isError}
+        message={getConnectedBlogsRes.error?.response?.data.message}
+      />
+    </>
   );
 };
