@@ -1,7 +1,13 @@
+// top margins
+.mt-0 {
+  margin-top: 0;
+}
+
 // bottom margins
 .mb-1 {
   margin-bottom: $size1;
 }
+
 .mb-2 {
   margin-bottom: $size2;
 }
@@ -11,10 +17,12 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .my-1 {
   margin-top: $size1;
   margin-bottom: $size1;
 }
+
 .my-2 {
   margin-top: $size2;
   margin-bottom: $size2;

@@ -4,14 +4,16 @@ import { useForm } from 'react-hook-form';
 import { LOGIN_FORM_FIELDS } from './LoginForm.constants';
 import { IApiErrorResponse, IAuthData, TSubmitFormEvent } from 'types';
 import { ILoginDto } from './LoginForm.types';
-import { useAuth, useMutation } from 'hooks';
+import { useAuth, useMutation, useParams } from 'hooks';
 import { AxiosError } from 'axios';
 
 const { login, password } = LOGIN_FORM_FIELDS;
 
 export const LoginForm: FC = () => {
   const [alert, setAlert] = useState<string>();
+  const { getParam } = useParams();
   const { authenticate } = useAuth();
+  const title = getParam('title');
 
   const loginErrorHandler = useCallback((error: AxiosError<IApiErrorResponse>) => {
     const { response } = error;
@@ -42,6 +44,7 @@ export const LoginForm: FC = () => {
 
   return (
     <form role='login-form' onSubmit={handleSubmit(submitHandler)}>
+      {typeof title === 'string' && <h2 className='mb-1 mt-0'>{title}</h2>}
       <Alert className='mb-2' show={Boolean(alert)}>
         {alert}
       </Alert>
