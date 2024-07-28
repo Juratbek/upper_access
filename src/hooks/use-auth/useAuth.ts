@@ -13,7 +13,7 @@ export const useAuth = (): IUseAuth => {
     (data) => {
       if (application === 'mobile') {
         const link = document.createElement('a');
-        link.href = `Upper://${callback}?token=${data.token}`;
+        link.href = `upper://${callback}?token=${data.token}`;
         link.target = '_blank';
         document.body.appendChild(link);
         link.click();
